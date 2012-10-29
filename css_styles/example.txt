@@ -1,0 +1,14 @@
+/* S2H Group Name Colours */
+
+/* Admin Group */
+.s2hGroup1 {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+/* Moderator Group */
+.s2hGroup3 {
+	color: #008800;
+	font-weight: bold;
+}
+
