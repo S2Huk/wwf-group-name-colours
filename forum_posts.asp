@@ -39,7 +39,7 @@
 '**	 Group Name Colours Modification
 '**	---------------------------------
 '**
-'**	Version:	1.0.0
+'**	Version:	1.1.0
 '**	Author:		Scotty32
 '**	Website:	http://www.s2h.co.uk/wwf/group-name-colours/
 '**	Support:	http://www.s2h.co.uk/forum/
@@ -163,6 +163,11 @@ Dim saryAnswerPosts		'Holds the anwser posts
 Dim intCurrentAnswerRecord
 Dim blnTopTopicAnswer		'Set to true if an anwser post display at the top
 Dim intTopTopicAnswers		'Holds the number of topic anwsers
+
+
+'// Start S2H Group Colour Names Mod //
+Dim intS2HGNCGuestID
+'// End S2H Group Colour Names Mod //
 
 
 'Initialise variables
@@ -617,7 +622,10 @@ If strDatabaseType = "SQLServer" AND blnSqlSvrAdvPaging Then
 End If
 
 'SQL SELECT
-strSQL = strSQL & strDbTable & "Thread.Thread_ID, " & strDbTable & "Thread.Message, " & strDbTable & "Thread.Message_date, " & strDbTable & "Thread.Show_signature, " & strDbTable & "Thread.IP_addr, " & strDbTable & "Thread.Hide, " & strDbTable & "Thread.Thanks, " & strDbTable & "Thread.Answer, " & strDbTable & "Author.Author_ID, " & strDbTable & "Author.Username, " & strDbTable & "Author.Homepage, " & strDbTable & "Author.Location, " & strDbTable & "Author.No_of_posts, " & strDbTable & "Author.Points, " & strDbTable & "Author.Join_date, " & strDbTable & "Author.Signature, " & strDbTable & "Author.Active, " & strDbTable & "Author.Avatar, " & strDbTable & "Author.Avatar_title, " & strDbTable & "Author.Banned, " & strDbTable & "Author.Author_email, " & strDbTable & "Group.Name AS GroupName, " & strDbTable & "Group.Stars, " & strDbTable & "Group.Custom_stars, " & strDbTable & "GuestName.Name AS GuestName, " & strDbTable & "Group.Signatures "
+strSQL = strSQL & strDbTable & "Thread.Thread_ID, " & strDbTable & "Thread.Message, " & strDbTable & "Thread.Message_date, " & strDbTable & "Thread.Show_signature, " & strDbTable & "Thread.IP_addr, " & strDbTable & "Thread.Hide, " & strDbTable & "Thread.Thanks, " & strDbTable & "Thread.Answer, " & strDbTable & "Author.Author_ID, " & strDbTable & "Author.Username, " & strDbTable & "Author.Homepage, " & strDbTable & "Author.Location, " & strDbTable & "Author.No_of_posts, " & strDbTable & "Author.Points, " & strDbTable & "Author.Join_date, " & strDbTable & "Author.Signature, " & strDbTable & "Author.Active, " & strDbTable & "Author.Avatar, " & strDbTable & "Author.Avatar_title, " & strDbTable & "Author.Banned, " & strDbTable & "Author.Author_email, " & strDbTable & "Group.Name AS GroupName, " & strDbTable & "Group.Stars, " & strDbTable & "Group.Custom_stars, " & strDbTable & "GuestName.Name AS GuestName, " & strDbTable & "Group.Signatures " 
+'// Start S2H Group Colour Names Mod //
+	strSQL = strSQL & ", " & strDbTable & "Author.Group_ID "
+'// End S2H Group Colour Names Mod //
 
 'If SQL Server advanced paging
 If strDatabaseType = "SQLServer"  AND blnSqlSvrAdvPaging Then
@@ -700,6 +708,9 @@ If NOT rsCommon.EOF Then
 	'23 = tblGroup.Custom_stars
 	'23 = tblGuestName.Name
 	'25 = tblGroup.Signatures
+'// Start S2H Group Colour Names Mod //
+	'26 = tblAuthor.Group_ID
+'// End S2H Group Colour Names Mod //
 	
 	
 	
@@ -756,7 +767,13 @@ End If
 If intRecordPositionPageNum = 1 AND lngTotalRecords > 2 AND NOT strAnswerPosts = "Off" AND strSortBy = "ASC" Then
 	
 	strSQL = "" & _
-	"SELECT  " & strDbTable & "Thread.Thread_ID, " & strDbTable & "Thread.Message, " & strDbTable & "Thread.Message_date, " & strDbTable & "Thread.Show_signature, " & strDbTable & "Thread.IP_addr, " & strDbTable & "Thread.Hide, " & strDbTable & "Thread.Thanks, " & strDbTable & "Thread.Answer, " & strDbTable & "Author.Author_ID, " & strDbTable & "Author.Username, " & strDbTable & "Author.Homepage, " & strDbTable & "Author.Location, " & strDbTable & "Author.No_of_posts, " & strDbTable & "Author.Points, " & strDbTable & "Author.Join_date, " & strDbTable & "Author.Signature, " & strDbTable & "Author.Active, " & strDbTable & "Author.Avatar, " & strDbTable & "Author.Avatar_title, " & strDbTable & "Author.Banned, " & strDbTable & "Author.Author_email, " & strDbTable & "Group.Name AS GroupName, " & strDbTable & "Group.Stars, " & strDbTable & "Group.Custom_stars, " & strDbTable & "GuestName.Name AS GuestName, " & strDbTable & "Group.Signatures "  & _
+	"SELECT  " & strDbTable & "Thread.Thread_ID, " & strDbTable & "Thread.Message, " & strDbTable & "Thread.Message_date, " & strDbTable & "Thread.Show_signature, " & strDbTable & "Thread.IP_addr, " & strDbTable & "Thread.Hide, " & strDbTable & "Thread.Thanks, " & strDbTable & "Thread.Answer, " & strDbTable & "Author.Author_ID, " & strDbTable & "Author.Username, " & strDbTable & "Author.Homepage, " & strDbTable & "Author.Location, " & strDbTable & "Author.No_of_posts, " & strDbTable & "Author.Points, " & strDbTable & "Author.Join_date, " & strDbTable & "Author.Signature, " & strDbTable & "Author.Active, " & strDbTable & "Author.Avatar, " & strDbTable & "Author.Avatar_title, " & strDbTable & "Author.Banned, " & strDbTable & "Author.Author_email, " & strDbTable & "Group.Name AS GroupName, " & strDbTable & "Group.Stars, " & strDbTable & "Group.Custom_stars, " & strDbTable & "GuestName.Name AS GuestName, " & strDbTable & "Group.Signatures " 
+
+'// Start S2H Group Colour Names Mod //
+	strSQL = strSQL & ", " & strDbTable & "Author.Group_ID "
+'// End S2H Group Colour Names Mod //
+
+	strSQL = strSQL & _
 	"FROM (" & strDbTable & "Group INNER JOIN (" & strDbTable & "Author INNER JOIN " & strDbTable & "Thread ON " & strDbTable & "Author.Author_ID = " & strDbTable & "Thread.Author_ID) ON " & strDbTable & "Group.Group_ID = " & strDbTable & "Author.Group_ID) LEFT JOIN " & strDbTable & "GuestName ON " & strDbTable & "Thread.Thread_ID = " & strDbTable & "GuestName.Thread_ID "  & _
 	strSQLFromWhere & _
 	" AND " & strDbTable & "Thread.Answer = " & strDBTrue & " " & _
@@ -1243,7 +1260,9 @@ If lngTotalRecords > 0 Then
 		'23 = tblGroup.Custom_stars
 		'24 = tblGuestName.Name
 		'25 = tblGroup.Signatures
-		
+'// Start S2H Group Colour Names Mod //
+		'26 = tblAuthor.Group_ID
+'// End S2H Group Colour Names Mod //
 	
 		'Set to falese for top of page topic answer
 		blnTopTopicAnswer = False
@@ -1290,6 +1309,9 @@ If lngTotalRecords > 0 Then
 			blnShowSignature = CBool(saryAnswerPosts(25,intCurrentAnswerRecord))
 	
 			strGuestUsername = saryAnswerPosts(24,intCurrentAnswerRecord)
+'// Start S2H Group Colour Names Mod //
+			intS2HGNCGuestID = saryAnswerPosts(26,intCurrentAnswerRecord)
+'// End S2H Group Colour Names Mod //
 			
 			'Move to next anwser record
 			intCurrentAnswerRecord = intCurrentAnswerRecord + 1
@@ -1333,6 +1355,9 @@ If lngTotalRecords > 0 Then
 			blnShowSignature = CBool(sarryPosts(25,intCurrentRecord))
 	
 			strGuestUsername = sarryPosts(24,intCurrentRecord)
+'// Start S2H Group Colour Names Mod //
+			intS2HGNCGuestID = sarryPosts(26,intCurrentRecord)
+'// End S2H Group Colour Names Mod //
 		End If
 		
 		
@@ -1543,7 +1568,7 @@ If lngTotalRecords > 0 Then
 %> 
    </div>
 <!--// Start S2H Group Colour Names Mod //-->
-   <br /><span class="s2hGroup<%=intGroupID%>"><% = strGroupName %></span>
+   <br /><span class="s2hGroup<%=intS2HGNCGuestID%>"><% = strGroupName %></span>
 <!--// End S2H Group Colour Names Mod //-->
    <br /><img src="<% If strRankCustomStars <> "" Then Response.Write(strRankCustomStars) Else Response.Write(strImagePath & intRankStars & "_star_rating.png") %>" alt="<% = strGroupName %>" title="<% = strGroupName %>" />
    <br /><%

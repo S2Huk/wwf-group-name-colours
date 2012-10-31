@@ -39,7 +39,7 @@
 '**	 Group Name Colours Modification
 '**	---------------------------------
 '**
-'**	Version:	1.0.0
+'**	Version:	1.1.0
 '**	Author:		Scotty32
 '**	Website:	http://www.s2h.co.uk/wwf/group-name-colours/
 '**	Support:	http://www.s2h.co.uk/forum/
@@ -115,6 +115,9 @@ Dim strLinkedInUsername		'Holds the linkedin username
 Dim blnViewProfile 		'set to true if the user has permission to view the profile
 
 
+'// Start S2H Group Colour Names Mod //
+Dim intS2HGNCGuestID
+'// End S2H Group Colour Names Mod //
 
 
 
@@ -229,7 +232,12 @@ If strMemberProfileView = "everyone" OR intGroupID <> 2 Then
 			strLastLoginIP = rsCommon("Login_IP")
 			'If signatures are not allowed for this group update the global blnSignatures to be fales for this page so the signature is not displayed
 			If CBool(rsCommon("Signatures")) = False Then blnSignatures = False
-	
+
+		'// Start S2H Group Colour Names Mod //
+			intS2HGNCGuestID = rsCommon("Group_ID")
+		'// End S2H Group Colour Names Mod //
+
+
 		'Else no profile is returned so set an error variable
 		Else
 			blnProfileReturned = False
@@ -447,7 +455,7 @@ Else
      <td>
 
 <!--// Start S2H Group Colour Names Mod //-->
-   <br /><span class="s2hGroup<%=intGroupID%>"><% = strGroupName %></span>
+   <br /><span class="s2hGroup<%=intS2HGNCGuestID%>"><% = strGroupName %></span>
 <!--// End S2H Group Colour Names Mod //-->
 
 	 <img src="<% 
