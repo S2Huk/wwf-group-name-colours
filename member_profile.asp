@@ -39,7 +39,7 @@
 '**	 Group Name Colours Modification
 '**	---------------------------------
 '**
-'**	Version:	1.1.0
+'**	Version:	1.1.1
 '**	Author:		Scotty32
 '**	Website:	http://www.s2h.co.uk/wwf/group-name-colours/
 '**	Support:	http://www.s2h.co.uk/forum/
@@ -118,6 +118,8 @@ Dim blnViewProfile 		'set to true if the user has permission to view the profile
 '// Start S2H Group Colour Names Mod //
 Dim intS2HGNCGuestID
 '// End S2H Group Colour Names Mod //
+
+
 
 
 

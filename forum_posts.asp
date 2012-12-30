@@ -39,7 +39,7 @@
 '**	 Group Name Colours Modification
 '**	---------------------------------
 '**
-'**	Version:	1.1.0
+'**	Version:	1.1.1
 '**	Author:		Scotty32
 '**	Website:	http://www.s2h.co.uk/wwf/group-name-colours/
 '**	Support:	http://www.s2h.co.uk/forum/
@@ -163,6 +163,7 @@ Dim saryAnswerPosts		'Holds the anwser posts
 Dim intCurrentAnswerRecord
 Dim blnTopTopicAnswer		'Set to true if an anwser post display at the top
 Dim intTopTopicAnswers		'Holds the number of topic anwsers
+Dim strSocialNetButtonsURL
 
 
 '// Start S2H Group Colour Names Mod //
@@ -622,7 +623,7 @@ If strDatabaseType = "SQLServer" AND blnSqlSvrAdvPaging Then
 End If
 
 'SQL SELECT
-strSQL = strSQL & strDbTable & "Thread.Thread_ID, " & strDbTable & "Thread.Message, " & strDbTable & "Thread.Message_date, " & strDbTable & "Thread.Show_signature, " & strDbTable & "Thread.IP_addr, " & strDbTable & "Thread.Hide, " & strDbTable & "Thread.Thanks, " & strDbTable & "Thread.Answer, " & strDbTable & "Author.Author_ID, " & strDbTable & "Author.Username, " & strDbTable & "Author.Homepage, " & strDbTable & "Author.Location, " & strDbTable & "Author.No_of_posts, " & strDbTable & "Author.Points, " & strDbTable & "Author.Join_date, " & strDbTable & "Author.Signature, " & strDbTable & "Author.Active, " & strDbTable & "Author.Avatar, " & strDbTable & "Author.Avatar_title, " & strDbTable & "Author.Banned, " & strDbTable & "Author.Author_email, " & strDbTable & "Group.Name AS GroupName, " & strDbTable & "Group.Stars, " & strDbTable & "Group.Custom_stars, " & strDbTable & "GuestName.Name AS GuestName, " & strDbTable & "Group.Signatures " 
+strSQL = strSQL & strDbTable & "Thread.Thread_ID, " & strDbTable & "Thread.Message, " & strDbTable & "Thread.Message_date, " & strDbTable & "Thread.Show_signature, " & strDbTable & "Thread.IP_addr, " & strDbTable & "Thread.Hide, " & strDbTable & "Thread.Thanks, " & strDbTable & "Thread.Answer, " & strDbTable & "Author.Author_ID, " & strDbTable & "Author.Username, " & strDbTable & "Author.Homepage, " & strDbTable & "Author.Location, " & strDbTable & "Author.No_of_posts, " & strDbTable & "Author.Points, " & strDbTable & "Author.Join_date, " & strDbTable & "Author.Signature, " & strDbTable & "Author.Active, " & strDbTable & "Author.Avatar, " & strDbTable & "Author.Avatar_title, " & strDbTable & "Author.Banned, " & strDbTable & "Author.Author_email, " & strDbTable & "Group.Name AS GroupName, " & strDbTable & "Group.Stars, " & strDbTable & "Group.Custom_stars, " & strDbTable & "GuestName.Name AS GuestName, " & strDbTable & "Group.Signatures "
 '// Start S2H Group Colour Names Mod //
 	strSQL = strSQL & ", " & strDbTable & "Author.Group_ID "
 '// End S2H Group Colour Names Mod //
@@ -767,7 +768,7 @@ End If
 If intRecordPositionPageNum = 1 AND lngTotalRecords > 2 AND NOT strAnswerPosts = "Off" AND strSortBy = "ASC" Then
 	
 	strSQL = "" & _
-	"SELECT  " & strDbTable & "Thread.Thread_ID, " & strDbTable & "Thread.Message, " & strDbTable & "Thread.Message_date, " & strDbTable & "Thread.Show_signature, " & strDbTable & "Thread.IP_addr, " & strDbTable & "Thread.Hide, " & strDbTable & "Thread.Thanks, " & strDbTable & "Thread.Answer, " & strDbTable & "Author.Author_ID, " & strDbTable & "Author.Username, " & strDbTable & "Author.Homepage, " & strDbTable & "Author.Location, " & strDbTable & "Author.No_of_posts, " & strDbTable & "Author.Points, " & strDbTable & "Author.Join_date, " & strDbTable & "Author.Signature, " & strDbTable & "Author.Active, " & strDbTable & "Author.Avatar, " & strDbTable & "Author.Avatar_title, " & strDbTable & "Author.Banned, " & strDbTable & "Author.Author_email, " & strDbTable & "Group.Name AS GroupName, " & strDbTable & "Group.Stars, " & strDbTable & "Group.Custom_stars, " & strDbTable & "GuestName.Name AS GuestName, " & strDbTable & "Group.Signatures " 
+	"SELECT  " & strDbTable & "Thread.Thread_ID, " & strDbTable & "Thread.Message, " & strDbTable & "Thread.Message_date, " & strDbTable & "Thread.Show_signature, " & strDbTable & "Thread.IP_addr, " & strDbTable & "Thread.Hide, " & strDbTable & "Thread.Thanks, " & strDbTable & "Thread.Answer, " & strDbTable & "Author.Author_ID, " & strDbTable & "Author.Username, " & strDbTable & "Author.Homepage, " & strDbTable & "Author.Location, " & strDbTable & "Author.No_of_posts, " & strDbTable & "Author.Points, " & strDbTable & "Author.Join_date, " & strDbTable & "Author.Signature, " & strDbTable & "Author.Active, " & strDbTable & "Author.Avatar, " & strDbTable & "Author.Avatar_title, " & strDbTable & "Author.Banned, " & strDbTable & "Author.Author_email, " & strDbTable & "Group.Name AS GroupName, " & strDbTable & "Group.Stars, " & strDbTable & "Group.Custom_stars, " & strDbTable & "GuestName.Name AS GuestName, " & strDbTable & "Group.Signatures "
 
 '// Start S2H Group Colour Names Mod //
 	strSQL = strSQL & ", " & strDbTable & "Author.Group_ID "
@@ -872,6 +873,9 @@ If NOT Request.ServerVariables("HTTP_X_ORIGINAL_URL") = "" OR (NOT Request.Serve
 	Else
 		strCanonicalURL = strForumPath & SeoUrlTitle(strSubject, "") & "_topic" & lngTopicID & "_page" & intRecordPositionPageNum & ".html"
 	End If
+	
+	'Create URL for liking on social networks
+	strSocialNetButtonsURL = strForumPath & SeoUrlTitle(strSubject, "") & "_topic" & lngTopicID & ".html"
 
 'Else canonical without URL rewriting
 Else
@@ -880,6 +884,9 @@ Else
 	Else
 		strCanonicalURL = strForumPath & "forum_posts.asp?TID=" & lngTopicID & "&PN=" & intRecordPositionPageNum & SeoUrlTitle(strSubject, "&title=")
 	End If	
+	
+	'Create URL for liking on social networks
+	strSocialNetButtonsURL = strForumPath & "forum_posts.asp?TID=" & lngTopicID & SeoUrlTitle(strSubject, "&title=")
 End If
 
 
@@ -995,7 +1002,6 @@ function CheckForm() {
 
 	'If Gecko Madis API (RTE) need to strip default input from the API
 	If RTEenabled = "Gecko" Then Response.Write(vbCrLf & "	//For Gecko Madis API (RTE)" & vbCrLf & "	if (formArea.message.value.indexOf('<br>') > -1 && formArea.message.value.length==6) formArea.message.value = '';" & vbCrLf)
-
 
 	'If this is a guest posting check that they have entered their name
 	If blnPost And lngLoggedInUserID = 2 Then
@@ -1163,7 +1169,7 @@ If lngTotalRecords > 0 Then
 	
 '	'Share Topic Drop Down
 '	If blnShareTopicLinks Then
-'		Response.Write("&nbsp;&nbsp;<span id=""shareTopic"" onclick=""getAjaxData('ajax_topic_share.asp?TID=" & lngTopicID & "&URL=" & Server.URLEncode(strCanonicalURL) & "&Title=" & Server.URLEncode(strSubject) & strQsSID2 & "', 'showShareTopicMenu');showDropDown('shareTopic', 'shareTopicMenu', 400, 160);"" class=""dropDownPointer""><img src=""" & strImagePath & "openshare-icon." & strForumImageType & """ alt=""" & strTxtShareTopic & """ title=""" & strTxtShareTopic & """ style=""vertical-align: text-bottom"" /> " & strTxtShareTopic & "</span>" & _
+'		Response.Write("&nbsp;&nbsp;<span id=""shareTopic"" onclick=""getAjaxData('ajax_topic_share.asp?TID=" & lngTopicID & "&URL=" & Server.URLEncode(strSocialNetButtonsURL) & "&Title=" & Server.URLEncode(strSubject) & strQsSID2 & "', 'showShareTopicMenu');showDropDown('shareTopic', 'shareTopicMenu', 400, 160);"" class=""dropDownPointer""><img src=""" & strImagePath & "openshare-icon." & strForumImageType & """ alt=""" & strTxtShareTopic & """ title=""" & strTxtShareTopic & """ style=""vertical-align: text-bottom"" /> " & strTxtShareTopic & "</span>" & _
 '		"<div id=""shareTopicMenu"" class=""dropDownTopicShare""><span id=""showShareTopicMenu""></span></div>")
 '	End If
 '	
@@ -1263,6 +1269,7 @@ If lngTotalRecords > 0 Then
 '// Start S2H Group Colour Names Mod //
 		'26 = tblAuthor.Group_ID
 '// End S2H Group Colour Names Mod //
+		
 	
 		'Set to falese for top of page topic answer
 		blnTopTopicAnswer = False
@@ -1853,7 +1860,7 @@ End If
 
 'Share Topic Drop Down
 If blnShareTopicLinks Then
-	Response.Write("&nbsp;&nbsp;<span id=""shareTopic"" onclick=""getAjaxData('ajax_topic_share.asp?TID=" & lngTopicID & "&URL=" & Server.URLEncode(strCanonicalURL) & "&Title=" & Server.URLEncode(strSubject) & strQsSID2 & "', 'showShareTopicMenu');showDropDown('shareTopic', 'shareTopicMenu', 720, 0);"" class=""dropDownPointer""><img src=""" & strImagePath & "share_button.png"" alt=""" & strTxtShareTopic & """ title=""" & strTxtShareTopic & """ style=""vertical-align: text-bottom"" onmouseover=""fadeImage(this)"" onmouseout=""unFadeImage(this)"" vspace=""4"" /></span>" & _
+	Response.Write("&nbsp;&nbsp;<span id=""shareTopic"" onclick=""getAjaxData('ajax_topic_share.asp?TID=" & lngTopicID & "&URL=" & Server.URLEncode(strSocialNetButtonsURL) & "&Title=" & Server.URLEncode(strSubject) & strQsSID2 & "', 'showShareTopicMenu');showDropDown('shareTopic', 'shareTopicMenu', 720, 0);"" class=""dropDownPointer""><img src=""" & strImagePath & "share_button.png"" alt=""" & strTxtShareTopic & """ title=""" & strTxtShareTopic & """ style=""vertical-align: text-bottom"" onmouseover=""fadeImage(this)"" onmouseout=""unFadeImage(this)"" vspace=""4"" /></span>" & _
 	"<div id=""shareTopicMenu"" class=""dropDownTopicShare""><span id=""showShareTopicMenu""></span></div> &nbsp;&nbsp; ")
 End If
 
@@ -1861,7 +1868,8 @@ End If
 'Show twitter tweet button
 If blnTwitterTweet Then
 %>
-   <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><%
+  <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+  <a href="http://twitter.com/share?url=<% = Server.URLEncode(strSocialNetButtonsURL) %>&text=<% = Server.HTMLEncode(strSubject) %>" class="twitter-share-button">Tweet</a><%
 
 End If
 
@@ -1870,7 +1878,7 @@ End If
 If blnGooglePlusOne Then
 
 %>   	
-   <g:plusone size="medium" href="<% = Server.URLEncode(strCanonicalURL) %>"></g:plusone><%
+   <g:plusone size="medium" href="<% = Server.URLEncode(strSocialNetButtonsURL) %>"></g:plusone><%
 
 End If
 
@@ -1878,7 +1886,7 @@ End If
 'Show facebook like button
 If blnFacebookLike Then
 %>
-   <iframe src="http://www.facebook.com/plugins/like.php?app_id=230119966998116&amp;href=<% = Server.URLEncode(strCanonicalURL) %>&amp;send=true&amp;layout=button_count&amp;width=400&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:130px; height:20px;" allowTransparency="true"></iframe><%
+   <iframe src="http://www.facebook.com/plugins/like.php?app_id=230119966998116&amp;href=<% = Server.URLEncode(strSocialNetButtonsURL) %>&amp;send=true&amp;layout=button_count&amp;width=400&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:130px; height:20px;" allowTransparency="true"></iframe><%
 
 End If
 
